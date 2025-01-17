@@ -12,7 +12,7 @@ geopressuretemplate_pressurepath(id)
 
 ## Run workflow for all tags
 list_id <- tail(names(yaml::yaml.load_file("config.yml", eval.expr = FALSE)), -1)
-list_id <- c("16CD", "16CA", "16CP","16CC")
+
 for (id in list_id){
   cli::cli_h1("Run tag for {id}")
   geopressuretemplate_tag(id)
