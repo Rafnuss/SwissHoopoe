@@ -1,0 +1,31 @@
+Package: SwissHoopoe
+Title: Trajectory of Swiss Hoopoe
+Version: 1.0.0
+Authors@R: c(
+    person("Raphaël Nussbaumer", , , "raphael.nussbaumer@vogelwarte.ch", role = ("cre", "aut"),
+           comment = c(ORCID = "https://orcid.org/0000-0002-8185-1020", "Swiss Ornithological Institute")),
+    person("Pablo Capilla-Lasheras", , , "pablo.capilla@vogelwarte.ch", role = "aut",
+           comment = c(ORCID = "https://orcid.org/0000-0001-6091-7089", "Swiss Ornithological Institute")),
+    person("Michael Schaub", , , "michael.schaub@vogelwarte.ch", role = c("aut", dtc"),
+           comment = c(ORCID = "https://orcid.org/0000-0003-2745-0557", "Swiss Ornithological Institute"))
+  )
+Description: Trajectory of Hoopoe
+License: CC0
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    config,
+    GeoPressureR,
+    GeoLocatoR,
+    ggplot2,
+    knitr,
+    plotly,
+    rmarkdown
+VignetteBuilder: 
+    knitr
+Remotes: 
+    rafnuss/GeoPressureR,
+    rafnuss/GeoLocator
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
