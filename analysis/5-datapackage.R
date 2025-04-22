@@ -23,7 +23,7 @@ plot(pkg)
 validate_gldp(pkg)
 
 # Write package
-frictionless::write_package(pkg, "data/datapackage/")
+frictionless::write_package(pkg, "data/datapackage/", compress=T)
 
 #upload
 for (f in list.files(pkg$version)) {

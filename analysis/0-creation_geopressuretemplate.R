@@ -17,13 +17,29 @@ GeoLocatoR:::validate_gldp_observations(o)
 t <- read_excel("data/tags.xlsx")
 
 gdl <- gdl0 %>%
-  filter(GDL_ID %in% t$tag_id & !is.na(GDL_ID)) %>%
-  filter(!(DataID %in% c(7169, 7172, 7168))) %>%  # Exclude alpine swift with same gdl_id
-  filter(!is.na(OrderName)) %>%
+  filter(GDL_ID %in% t$tag_id & !is.na(GDL_ID)) %>% # Only take tag_id in the tag table
+  filter(!(DataID %in% c(7169, 7172, 7168, 7203, 5, 7170))) %>%  # Exclude alpine swift with same gdl_id
   mutate(
+    OrderName = ifelse(GDL_ID=="2MA", "UpuEpoCH11", OrderName)
+  ) %>%
+  filter(!is.na(OrderName)) %>% # Remove tag without ordername
+  mutate( # Fix ordername issue
     OrderName = ifelse(OrderName=="UpoEpoCH11", "UpuEpoCH11", OrderName),
     OrderName = ifelse(OrderName=="UpoEpoCH10", "UpuEpoCH10", OrderName)
+  )  %>%
+  bind_rows( # Add BAS data not in the main database
+  tibble(
+    OrderName = "UpuEpoCH08",
+    GDL_ID = t$tag_id[grep("^69", t$tag_id)]
   )
+) %>%  # Add a missing tag, not sure why
+  bind_rows(
+    tibble(
+      OrderName = "UpuEpoCH10",
+      GDL_ID = "1KO"
+    )
+  )
+
 
 gdl <- GeoLocatoR:::add_gldp_soi_directory(gdl, file.path(soi_data_directory, "data"))
 
@@ -40,11 +56,21 @@ o %>%
   filter(!(tag_id %in% gdl$GDL_ID)) %>%
   .$tag_id %>% unique()
 
+
 pkg <- create_gldp(title="dummy", contributors=list()) %>%
   add_gldp_soi(
     gdl = gdl,
     directory_data = file.path(soi_data_directory, "data")
   )
+
+# Check tag with directory but not present in measurements of pkg (reading error would be the most likely)
+gdl %>%
+  filter(!is.na(directory)) %>%
+  filter(!(GDL_ID %in% measurements(pkg)$tag_id)) %>%
+  pull(GDL_ID)
+
+
+
 
 plot(pkg)
 

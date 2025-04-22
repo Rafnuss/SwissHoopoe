@@ -49,5 +49,6 @@ data/datapackage/*
 create_raw_dp/*
 
 /creation_raw_dp
-/data/interim
 /data/raw-tag
+.RDataTmp
+.RDataTmp1
